@@ -1,0 +1,16 @@
+version: '3'
+
+services:
+  spring-boot-demo-mysql:
+    container_name: "mysql-demo"
+    image: mysql:8.0.33-debian
+    restart: unless-stopped
+    environment:
+      MYSQL_DATABASE: demo_db
+      MYSQL_USER: spring_demo
+      MYSQL_ROOT_PASSWORD: spring_demo_passwd
+      TZ: Asia/Seoul
+      LC_ALL: C.UTF-8
+      LC: C
+    ports:
+      - 3316:3306
