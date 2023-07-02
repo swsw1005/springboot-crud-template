@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>register</title>
+
+    <script src="/static/js/board.js"></script>
+    <script src="/static/js/axios.min.js"></script>
+
+    <style>
+        .header {
+            position: fixed;
+            top: 0px;
+            left: 0px;
+            width: 100vw;
+            margin: 0px;
+            padding: 10px;
+        }
+
+        .body {
+            margin-top: 55px;
+        }
+
+        pre, textarea {
+            border: 1px solid black;
+            min-height: 50vh;
+            margin: 5px;
+            padding: 5px;
+        }
+
+        label {
+            margin-right: 25px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="header">
+    <button type="button" onclick="location.href='/board'">
+        ←
+    </button>
+
+    <span th:if="${mode == 'insert'}">
+        등록하기
+    </span>
+    <span th:if="${mode == 'update'}">
+        수정하기
+    </span>
+    <span th:if="${mode == 'view'}">
+        글보기
+    </span>
+</div>
+
+<div class="body">
+
+    <form id="boardForm">
+
+        <input type="hidden" name="id" th:value="${dto?.getId()}">
+
+        <div class="title-area">
+            <label for="title">
+                제목
+            </label>
+            <input id="title" name="title" th:if="${mode == 'insert' || mode == 'update'}"
+                   th:value="${dto?.getTitle()}"/>
+            <span th:if="${mode == 'view'}" th:text="${dto?.getTitle()}">
+    </span>
+        </div>
+
+        <div class="writer-area">
+
+            <label for="writer">
+                작성자
+            </label>
+
+            <input id="writer" name="writer" th:if="${mode == 'insert'}"
+                   th:value="${dto?.getWriter()}"/>
+            <div th:unless="${mode == 'insert'}" th:text="${dto?.getWriter()}" style="display: inline-block;">
+            </div>
+        </div>
+
+        <div class="writer-area">
+
+            <label th:unless="${mode == 'insert'}">
+                작성시간
+            </label>
+            <div th:unless="${mode == 'insert'}"
+                 th:text="${#dates.format(dto?.createdAt,'yyyy-MM-dd HH:mm:ss')}"
+                 style="display: inline-block;">
+            </div>
+        </div>
+
+        <div class="body-area">
+
+        <textarea
+                id="textArea"
+                name="body"
+                th:unless="${mode == 'view'}"
+                th:text="${dto?.getBody()}"
+                placeholder="새 글 내용을 입력하세요" cols="70" rows="30">
+        </textarea>
+            <pre th:if="${mode == 'view'}" th:text="${dto?.getBody()}">
+
+            </pre>
+        </div>
+
+        <div>
+
+            <button type="button"
+                    onclick="insertBoard('insert')"
+                    th:if="${mode == 'insert'}">
+                등록
+            </button>
+            <button type="button"
+                    onclick="insertBoard('update')"
+                    th:if="${mode == 'update'}">
+                저장
+            </button>
+
+            <a th:if="${mode == 'view'}" th:href="@{/board/{id}(id=${dto.getId()}, update=${'true'})}">
+                수정
+            </a>
+
+            <button th:if="${mode == 'view' || mode == 'update'}" type="button" onclick="deleteById(this)"
+                    th:data-id="${dto?.getId()}">
+                삭제
+            </button>
+
+        </div>
+
+    </form>
+</div>
+
+<script>
+
+    window.onload = () => {
+        resize();
+    }
+
+    window.onresize = () => {
+        resize();
+    }
+
+</script>
+
+
+</body>
+</html>

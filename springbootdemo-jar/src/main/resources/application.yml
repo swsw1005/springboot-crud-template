@@ -1,0 +1,10 @@
+database:
+  driver-class-name: com.mysql.cj.jdbc.Driver
+  clusters:
+    - name: db_1
+      url: jdbc:mysql://localhost:3316/demo_db?useSSL=false&allowPublicKeyRetrieval=true
+      username: spring_demo
+      password: spring_demo_passwd
+      maximum-pool-size: 3
+      readonly: false
+      schema: public

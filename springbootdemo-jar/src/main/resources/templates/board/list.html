@@ -1,0 +1,127 @@
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+
+<!--<div th:text="${pageable}">-->
+<!--</div>-->
+
+<!--<div th:text="${pagingHelper}">-->
+<!--</div>-->
+
+<!--<div th:text="${total}">-->
+<!--</div>-->
+
+<!--<div th:text="${boardSearch}">-->
+<!--</div>-->
+
+<div class="" th:if="${list.size() > 0}">
+    <div class="">
+        총
+        <span th:text="${total}"></span>
+        중
+        <span th:text="${list.size()}"></span>
+        개
+    </div>
+    <div class="">
+        <span th:text="${pagingHelper.pageNum}"></span>
+        /
+        <span th:text="${pagingHelper.lastPageNum}"></span>
+        페이지
+    </div>
+</div>
+
+
+<table style="width: 100%;">
+
+    <thead>
+    <tr th:if="${list.size() > 0}">
+        <th>
+            제목
+        </th>
+        <th>
+            작성자
+        </th>
+        <th>
+            작성시간
+        </th>
+    </tr>
+
+    </thead>
+
+    <tbody>
+
+    <tr th:unless="${list.size() > 0}">
+        <td colspan="3" style="text-align: center;">
+            <h4>
+                검색 결과가 없습니다.
+            </h4>
+        </td>
+    </tr>
+
+    <tr th:if="${list.size() > 0}" th:each="item : ${list}">
+        <!--    <div th:text="${item.id}"></div>-->
+        <td
+                th:data-id="${item.id}"
+                class="title-header"
+        >
+            <a th:href="@{/board/{param1}(param1=${item.id})}"
+               th:text="${item.title}">
+            </a>
+        </td>
+        <td th:text="${item.writer}"></td>
+
+        <td th:text="${#dates.format(item.createdAt,'yyyy-MM-dd HH:mm:ss')}"></td>
+    </tr>
+    </tbody>
+
+</table>
+
+<div class="paging-wrapper">
+
+    <button th:if="${pagingHelper.isNotInFirstPage()}"
+            th:page-num="1"
+            onclick='searchPaging(this)'
+            style="border: 1px solid green; background-color: cyan;"
+    >
+        처음
+    </button>
+
+    <button th:if="${pagingHelper.isPrevPageExist()}"
+            th:page-num="${pagingHelper.getPrevGroupPageNum()}"
+            onclick='searchPaging(this)'
+            style="border: 1px solid green; background-color: cyan;"
+    >
+        이전
+    </button>
+
+    <th:block th:each="item : ${pagingHelper.pageNumList}">
+
+        <th:block th:switch="${item}">
+
+
+            <strong
+                    th:case="${pagingHelper.pageNum}"
+                    th:text="${item}"
+                    th:page-num="${item}"
+            >
+            </strong>
+
+            <button type="button" onclick='searchPaging(this)'
+                    th:case="*"
+                    th:text="${item}"
+                    th:page-num="${item}"
+            >
+            </button>
+
+
+        </th:block>
+
+    </th:block>
+
+    <button th:if="${pagingHelper.isNextPageExist()}"
+            th:page-num="${pagingHelper.getNextGroupPageNum()}"
+            onclick='searchPaging(this)'
+            style="border: 1px solid blue; background-color: cyan;"
+    >
+        다음
+    </button>
+
+</div>

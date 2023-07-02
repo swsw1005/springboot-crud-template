@@ -8,17 +8,18 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="demo-jar" />
-        <module name="demowar" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="demo-jar" target="11" />
+      <module name="demo-war" target="11" />
       <module name="demowar" target="11" />
     </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="demo-jar" options="-parameters" />
+      <module name="demo-war" options="-parameters" />
       <module name="demowar" options="-parameters" />
     </option>
   </component>

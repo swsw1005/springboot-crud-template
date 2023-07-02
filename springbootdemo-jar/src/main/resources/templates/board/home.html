@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>home</title>
+
+    <script src="/static/js/board.js"></script>
+    <script src="/static/js/axios.min.js"></script>
+    <style>
+        #listLocation {
+            border: 1px solid red;
+        }
+
+        .list-wrapper {
+            display: grid;
+            grid-template-columns: 1fr 100px 200px;
+        }
+
+        .list-wrapper div {
+            border: 1px solid violet;
+        }
+
+        .title-header {
+            cursor: pointer;
+        }
+
+        .title-header:hover {
+            font-weight: bolder;
+        }
+    </style>
+</head>
+<body>
+
+<h3>
+    board home
+</h3>
+
+<div class="form-wrapper">
+
+    <form id="boardForm" class="" action="/board/home" method="get">
+
+        <input type="hidden" id="pageNum" name="pn" th:value="${boardSearch.pn}">
+
+        <select id="pageSize" name="ps" onchange="submitForm(1)">
+            <option value="20" th:selected="${boardSearch.getPs() == 20}? 'true' : 'false'">20개씩 보기</option>
+            <option value="30" th:selected="${boardSearch.getPs() == 30}? 'true' : 'false'">30개씩 보기</option>
+            <option value="50" th:selected="${boardSearch.getPs() == 50}? 'true' : 'false'">50개씩 보기</option>
+            <option value="100" th:selected="${boardSearch.getPs() == 100}? 'true' : 'false'">100개씩 보기</option>
+            <option value="200" th:selected="${boardSearch.getPs() == 200}? 'true' : 'false'">200개씩 보기</option>
+        </select>
+
+        <input type="date" name="sd" th:value="${boardSearch.getSd()}">
+        <input type="date" name="ed" th:value="${boardSearch.getEd()}">
+
+        <select id="searchType" name="t">
+            <option value="">---</option>
+            <th:block th:each="val : ${searchTypes}">
+                <option th:selected="${boardSearch.getT() == val.name()}? 'true' : 'false'"
+                        th:data-match="${boardSearch.getT() == val.name()}"
+                        th:value="${val}"
+                        th:utext="${val}">
+                </option>
+            </th:block>
+        </select>
+
+        <input type="text" id="searchKeyword" name="k" th:value="${boardSearch.k}">
+
+        <button type="button" class=""
+                onclick="submitForm(1)">
+            조회
+        </button>
+
+        <button type="button" class=""
+                onclick="gotoRegister()">
+            새 글 작성
+        </button>
+
+    </form>
+
+</div>
+
+<div id="listLocation">
+
+</div>
+
+<script>
+    window.onload = () => {
+        searchList();
+    }
+</script>
+
+</body>
+</html>

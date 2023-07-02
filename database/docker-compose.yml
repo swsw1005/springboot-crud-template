@@ -8,7 +8,9 @@ services:
     environment:
       MYSQL_DATABASE: demo_db
       MYSQL_USER: spring_demo
+      MYSQL_PASSWORD: spring_demo_passwd
       MYSQL_ROOT_PASSWORD: spring_demo_passwd
+      MYSQL_ALLOW_EMPTY_PASSWORD: true
       TZ: Asia/Seoul
       LC_ALL: C.UTF-8
       LC: C
