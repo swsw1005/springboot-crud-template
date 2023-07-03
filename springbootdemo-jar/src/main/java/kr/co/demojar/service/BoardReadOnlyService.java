@@ -4,6 +4,7 @@ import kr.co.demojar.bean.BoardSearchType;
 import kr.co.demojar.bean.dto.BoardEntityDto;
 import kr.co.demojar.bean.entity.BoardEntity;
 import kr.co.demojar.bean.BoardSearch;
+import kr.co.demojar.exception.NoContentException;
 import kr.co.demojar.repository.BoardEntityRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -31,12 +32,17 @@ public class BoardReadOnlyService {
     private final BoardEntityRepository boardEntityRepository;
 
 
-    public Page<BoardEntityDto> findAllBy(final BoardSearch boardSearch) {
+    public Page<BoardEntityDto> findAllBy(final BoardSearch boardSearch) throws NoContentException {
 
         Calendar startDate = stringDateToCal(boardSearch.getSd());
         Calendar endDate = stringDateToCal(boardSearch.getEd());
         BoardSearchType searchType = BoardSearchType.from(boardSearch.getT());
 
+        if(startDate != null && endDate != null){
+            if(endDate.getTimeInMillis() < startDate.getTimeInMillis()){
+                throw new NoContentException("startDate is bigger then endDate");
+            }
+        }
 
         boardSearch.setPn(boardSearch.getPn() - 1);
 

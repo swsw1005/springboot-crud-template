@@ -54,7 +54,7 @@ public class BoardViewController {
     public ModelAndView list(
             //
             BoardSearch boardSearch,  //
-            HttpServletRequest request, HttpServletResponse response) {
+            HttpServletRequest request, HttpServletResponse response) throws NoContentException {
         ModelAndView mav = new ModelAndView("board/list");
 
         Page<BoardEntityDto> page = boardReadOnlyService.findAllBy(boardSearch);

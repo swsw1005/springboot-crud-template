@@ -11,6 +11,14 @@ const searchPaging = (_this) => {
 const searchList = () => {
 
     const formData = new FormData(document.getElementById("boardForm"));
+    console.log(document.getElementById("startDate").valueAsDate);
+    console.log(document.getElementById("endDate").valueAsDate);
+    if (document.getElementById("endDate").valueAsDate != null && document.getElementById("startDate").valueAsDate != null) {
+        if (document.getElementById("endDate").valueAsDate < document.getElementById("startDate").valueAsDate) {
+            alert("시작일이 종료일보다 클 수 없습니다.");
+            return;
+        }
+    }
 
     console.log(formData);
 
