@@ -61,6 +61,7 @@ function resize() {
 
     if (target != undefined && target != null) {
         target.style.width = wd + 'px';
+        target.style.width = '100%';
     }
 }
 

@@ -8,129 +8,124 @@
 
     <script src="/static/js/board.js"></script>
     <script src="/static/js/axios.min.js"></script>
+    <link rel="stylesheet" href="/static/css/w3.css">
+    <link rel="stylesheet" href="/static/css/board.css">
 
-    <style>
-        .header {
-            position: fixed;
-            top: 0px;
-            left: 0px;
-            width: 100vw;
-            margin: 0px;
-            padding: 10px;
-        }
-
-        .body {
-            margin-top: 55px;
-        }
-
-        pre, textarea {
-            border: 1px solid black;
-            min-height: 50vh;
-            margin: 5px;
-            padding: 5px;
-        }
-
-        label {
-            margin-right: 25px;
-        }
-    </style>
 </head>
 <body>
 
-<div class="header">
-    <button type="button" onclick="location.href='/board'">
-        ←
-    </button>
+<div class="width-auto">
 
-    <span th:if="${mode == 'insert'}">
+
+    <div class="w3-bar w3-margin">
+        <button class="w3-button w3-bar-item w3-left"
+                type="button" onclick="location.href='/board'">
+            ←
+        </button>
+
+        <span class="w3-bar-item" th:if="${mode == 'insert'}">
         등록하기
     </span>
-    <span th:if="${mode == 'update'}">
+        <span class="w3-bar-item" th:if="${mode == 'update'}">
         수정하기
     </span>
-    <span th:if="${mode == 'view'}">
+        <span class="w3-bar-item" th:if="${mode == 'view'}">
         글보기
     </span>
-</div>
+    </div>
 
-<div class="body">
+    <div class="w3-container w3-margin">
 
-    <form id="boardForm">
+        <form id="boardForm">
 
-        <input type="hidden" name="id" th:value="${dto?.getId()}">
+            <input type="hidden" name="id" th:value="${dto?.getId()}">
 
-        <div class="title-area">
-            <label for="title">
-                제목
-            </label>
-            <input id="title" name="title" th:if="${mode == 'insert' || mode == 'update'}"
-                   th:value="${dto?.getTitle()}"/>
-            <span th:if="${mode == 'view'}" th:text="${dto?.getTitle()}">
-    </span>
-        </div>
-
-        <div class="writer-area">
-
-            <label for="writer">
-                작성자
-            </label>
-
-            <input id="writer" name="writer" th:if="${mode == 'insert'}"
-                   th:value="${dto?.getWriter()}"/>
-            <div th:unless="${mode == 'insert'}" th:text="${dto?.getWriter()}" style="display: inline-block;">
+            <div class="title-area">
+                <label for="title">
+                    제목
+                </label>
+                <input id="title" name="title" th:if="${mode == 'insert' || mode == 'update'}"
+                       class="w3-input w3-border"
+                       th:value="${dto?.getTitle()}"/>
+                <span th:if="${mode == 'view'}" th:text="${dto?.getTitle()}">
+                </span>
             </div>
-        </div>
 
-        <div class="writer-area">
+            <div class="writer-area w3-margin-top">
 
-            <label th:unless="${mode == 'insert'}">
-                작성시간
-            </label>
-            <div th:unless="${mode == 'insert'}"
-                 th:text="${#dates.format(dto?.createdAt,'yyyy-MM-dd HH:mm:ss')}"
-                 style="display: inline-block;">
+                <label for="writer">
+                    작성자
+                </label>
+
+                <input id="writer" name="writer" th:if="${mode == 'insert'}"
+                       class="w3-input w3-border"
+                       th:value="${dto?.getWriter()}"/>
+                <div th:unless="${mode == 'insert'}" th:text="${dto?.getWriter()}" style="display: inline-block;">
+                </div>
             </div>
-        </div>
 
-        <div class="body-area">
+            <div class="writer-area w3-margin-top">
 
-        <textarea
-                id="textArea"
-                name="body"
-                th:unless="${mode == 'view'}"
-                th:text="${dto?.getBody()}"
-                placeholder="새 글 내용을 입력하세요" cols="70" rows="30">
-        </textarea>
-            <pre th:if="${mode == 'view'}" th:text="${dto?.getBody()}">
+                <label th:unless="${mode == 'insert'}">
+                    작성시간
+                </label>
+                <div th:unless="${mode == 'insert'}"
+                     th:text="${#dates.format(dto?.createdAt,'yyyy-MM-dd HH:mm:ss')}"
+                     style="display: inline-block;">
+                </div>
+            </div>
 
-            </pre>
-        </div>
+            <div class="body-area w3-margin-top">
 
-        <div>
+                <textarea
+                        id="textArea"
+                        name="body"
+                        class="w3-input w3-border"
+                        th:unless="${mode == 'view'}"
+                        th:text="${dto?.getBody()}"
+                        placeholder="새 글 내용을 입력하세요" cols="70" rows="15">
+                 </textarea>
+                <pre th:if="${mode == 'view'}" th:text="${dto?.getBody()}">
+                </pre>
+            </div>
 
-            <button type="button"
-                    onclick="insertBoard('insert')"
-                    th:if="${mode == 'insert'}">
-                등록
-            </button>
-            <button type="button"
-                    onclick="insertBoard('update')"
-                    th:if="${mode == 'update'}">
-                저장
-            </button>
+            <div class="w3-margin-top">
 
-            <a th:if="${mode == 'view'}" th:href="@{/board/{id}(id=${dto.getId()}, update=${'true'})}">
-                수정
-            </a>
+                <button type="button"
+                        class="w3-button w3-green"
+                        onclick="insertBoard('insert')"
+                        th:if="${mode == 'insert'}">
+                    등록
+                </button>
+                <button type="button"
+                        class="w3-button w3-red"
+                        onclick="location.href='/board'"
+                        th:if="${mode == 'insert'}">
+                    취소
+                </button>
 
-            <button th:if="${mode == 'view' || mode == 'update'}" type="button" onclick="deleteById(this)"
-                    th:data-id="${dto?.getId()}">
-                삭제
-            </button>
+                <button type="button"
+                        class="w3-button w3-green"
+                        onclick="insertBoard('update')"
+                        th:if="${mode == 'update'}">
+                    저장
+                </button>
 
-        </div>
+                <a class="w3-button w3-green"
+                   th:if="${mode == 'view'}" th:href="@{/board/{id}(id=${dto.getId()}, update=${'true'})}">
+                    수정
+                </a>
 
-    </form>
+                <button class="w3-button w3-red"
+                        th:if="${mode == 'view' || mode == 'update'}" type="button" onclick="deleteById(this)"
+                        th:data-id="${dto?.getId()}">
+                    삭제
+                </button>
+
+            </div>
+
+        </form>
+    </div>
 </div>
 
 <script>

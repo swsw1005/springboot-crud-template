@@ -8,10 +8,10 @@
 
     <script src="/static/js/board.js"></script>
     <script src="/static/js/axios.min.js"></script>
+    <link rel="stylesheet" href="/static/css/w3.css">
+    <link rel="stylesheet" href="/static/css/board.css">
+
     <style>
-        #listLocation {
-            border: 1px solid red;
-        }
 
         .list-wrapper {
             display: grid;
@@ -33,56 +33,84 @@
 </head>
 <body>
 
-<h3>
-    board home
-</h3>
+<div class="width-auto">
 
-<div class="form-wrapper">
+    <h3>
+        board home
+    </h3>
 
-    <form id="boardForm" class="" action="/board/home" method="get">
+    <div class="w3-container">
 
-        <input type="hidden" id="pageNum" name="pn" th:value="${boardSearch.pn}">
+        <form id="boardForm" class="" action="/board/home" method="get">
 
-        <select id="pageSize" name="ps" onchange="submitForm(1)">
-            <option value="20" th:selected="${boardSearch.getPs() == 20}? 'true' : 'false'">20개씩 보기</option>
-            <option value="30" th:selected="${boardSearch.getPs() == 30}? 'true' : 'false'">30개씩 보기</option>
-            <option value="50" th:selected="${boardSearch.getPs() == 50}? 'true' : 'false'">50개씩 보기</option>
-            <option value="100" th:selected="${boardSearch.getPs() == 100}? 'true' : 'false'">100개씩 보기</option>
-            <option value="200" th:selected="${boardSearch.getPs() == 200}? 'true' : 'false'">200개씩 보기</option>
-        </select>
+            <input type="hidden" id="pageNum" name="pn" th:value="${boardSearch.pn}">
 
-        <input type="date" name="sd" th:value="${boardSearch.getSd()}">
-        <input type="date" name="ed" th:value="${boardSearch.getEd()}">
 
-        <select id="searchType" name="t">
-            <option value="">---</option>
-            <th:block th:each="val : ${searchTypes}">
-                <option th:selected="${boardSearch.getT() == val.name()}? 'true' : 'false'"
-                        th:data-match="${boardSearch.getT() == val.name()}"
-                        th:value="${val}"
-                        th:utext="${val}">
-                </option>
-            </th:block>
-        </select>
+            <div class="w3-row-padding w3-margin-top">
+                <div class="w3-third">
 
-        <input type="text" id="searchKeyword" name="k" th:value="${boardSearch.k}">
+                    <select class="w3-select"
+                            id="pageSize" name="ps" onchange="submitForm(1)">
+                        <option value="20" th:selected="${boardSearch.getPs() == 20}? 'true' : 'false'">20개씩 보기</option>
+                        <option value="30" th:selected="${boardSearch.getPs() == 30}? 'true' : 'false'">30개씩 보기</option>
+                        <option value="50" th:selected="${boardSearch.getPs() == 50}? 'true' : 'false'">50개씩 보기</option>
+                        <option value="100" th:selected="${boardSearch.getPs() == 100}? 'true' : 'false'">100개씩 보기
+                        </option>
+                        <option value="200" th:selected="${boardSearch.getPs() == 200}? 'true' : 'false'">200개씩 보기
+                        </option>
+                    </select>
+                </div>
 
-        <button type="button" class=""
-                onclick="submitForm(1)">
-            조회
-        </button>
+                <div class="w3-third">
 
-        <button type="button" class=""
-                onclick="gotoRegister()">
-            새 글 작성
-        </button>
+                    <input class="w3-input" type="date" name="sd" th:value="${boardSearch.getSd()}">
+                </div>
+                <div class="w3-third">
 
-    </form>
+                    <input class="w3-input" type="date" name="ed" th:value="${boardSearch.getEd()}">
+                </div>
+            </div>
 
-</div>
 
-<div id="listLocation">
+            <div class="w3-row-padding w3-margin-top">
+                <div class="w3-third">
 
+                    <select class="w3-select" id="searchType" name="t">
+                        <option value="">---</option>
+                        <th:block th:each="val : ${searchTypes}">
+                            <option th:selected="${boardSearch.getT() == val.name()}? 'true' : 'false'"
+                                    th:data-match="${boardSearch.getT() == val.name()}"
+                                    th:value="${val}"
+                                    th:utext="${val}">
+                            </option>
+                        </th:block>
+                    </select>
+
+                </div>
+
+                <div class="w3-third">
+
+                    <input class="w3-input" type="text" id="searchKeyword" name="k" th:value="${boardSearch.k}">
+                </div>
+                <div class="w3-third">
+                    <button type="button" class="w3-button w3-blue"
+                            onclick="submitForm(1)">
+                        조회
+                    </button>
+
+                    <button type="button" class="w3-button w3-green"
+                            onclick="gotoRegister()">
+                        새 글 작성
+                    </button>
+                </div>
+            </div>
+        </form>
+
+    </div>
+
+    <div id="listLocation">
+
+    </div>
 </div>
 
 <script>

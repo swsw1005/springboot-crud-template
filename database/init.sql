@@ -11,3 +11,6 @@ CREATE TABLE tb_board
 CREATE INDEX idx_created_at ON tb_board (created_at);
 
 CREATE INDEX idx_writer ON tb_board (writer);
+
+
+##

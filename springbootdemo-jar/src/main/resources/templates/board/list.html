@@ -12,15 +12,15 @@
 <!--<div th:text="${boardSearch}">-->
 <!--</div>-->
 
-<div class="" th:if="${list.size() > 0}">
-    <div class="">
+<div class="w3-bar w3-margin-top" th:if="${list.size() > 0}">
+    <div class="w3-left">
         총
         <span th:text="${total}"></span>
         중
         <span th:text="${list.size()}"></span>
         개
     </div>
-    <div class="">
+    <div class="w3-right">
         <span th:text="${pagingHelper.pageNum}"></span>
         /
         <span th:text="${pagingHelper.lastPageNum}"></span>
@@ -29,7 +29,7 @@
 </div>
 
 
-<table style="width: 100%;">
+<table class="w3-table-all w3-margin-top">
 
     <thead>
     <tr th:if="${list.size() > 0}">
@@ -68,60 +68,63 @@
         </td>
         <td th:text="${item.writer}"></td>
 
-        <td th:text="${#dates.format(item.createdAt,'yyyy-MM-dd HH:mm:ss')}"></td>
+        <td class="w3-small" th:text="${#dates.format(item.createdAt,'yyyy-MM-dd HH:mm:ss')}"></td>
     </tr>
     </tbody>
 
 </table>
 
-<div class="paging-wrapper">
+<div class="w3-center w3-margin-top">
+    <div class="w3-bar w3-border">
 
-    <button th:if="${pagingHelper.isNotInFirstPage()}"
-            th:page-num="1"
-            onclick='searchPaging(this)'
-            style="border: 1px solid green; background-color: cyan;"
-    >
-        처음
-    </button>
+        <button th:if="${pagingHelper.isNotInFirstPage()}"
+                th:page-num="1"
+                onclick='searchPaging(this)'
+                class="w3-bar-item w3-button"
+        >
+            &lt;&lt;
+        </button>
 
-    <button th:if="${pagingHelper.isPrevPageExist()}"
-            th:page-num="${pagingHelper.getPrevGroupPageNum()}"
-            onclick='searchPaging(this)'
-            style="border: 1px solid green; background-color: cyan;"
-    >
-        이전
-    </button>
+        <button th:if="${pagingHelper.isPrevPageExist()}"
+                th:page-num="${pagingHelper.getPrevGroupPageNum()}"
+                onclick='searchPaging(this)'
+                class="w3-bar-item w3-button"
+        >
+            &lt;
+        </button>
 
-    <th:block th:each="item : ${pagingHelper.pageNumList}">
+        <th:block th:each="item : ${pagingHelper.pageNumList}">
 
-        <th:block th:switch="${item}">
+            <th:block th:switch="${item}">
 
 
-            <strong
-                    th:case="${pagingHelper.pageNum}"
-                    th:text="${item}"
-                    th:page-num="${item}"
-            >
-            </strong>
+                <a class="w3-bar-item w3-button w3-green"
+                   th:case="${pagingHelper.pageNum}"
+                   th:text="${item}"
+                   th:page-num="${item}"
+                >
+                </a>
 
-            <button type="button" onclick='searchPaging(this)'
-                    th:case="*"
-                    th:text="${item}"
-                    th:page-num="${item}"
-            >
-            </button>
+                <button type="button" onclick='searchPaging(this)'
+                        class="w3-bar-item w3-button"
+                        th:case="*"
+                        th:text="${item}"
+                        th:page-num="${item}"
+                >
+                </button>
 
+
+            </th:block>
 
         </th:block>
 
-    </th:block>
+        <button th:if="${pagingHelper.isNextPageExist()}"
+                th:page-num="${pagingHelper.getNextGroupPageNum()}"
+                onclick='searchPaging(this)'
+                class="w3-bar-item w3-button"
+        >
+            &gt;
+        </button>
 
-    <button th:if="${pagingHelper.isNextPageExist()}"
-            th:page-num="${pagingHelper.getNextGroupPageNum()}"
-            onclick='searchPaging(this)'
-            style="border: 1px solid blue; background-color: cyan;"
-    >
-        다음
-    </button>
-
+    </div>
 </div>
