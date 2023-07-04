@@ -73,7 +73,7 @@ public class BoardService {
         BoardEntity boardEntity = optionalBoardEntity.get();
         boardEntity.update(dto.getTitle(), dto.getBody());
 
-        BoardEntity updateEntity = boardEntityRepository.save(boardEntity);
+        BoardEntity updateEntity = boardEntityRepository.saveAndFlush(boardEntity);
 
         return modelMapper.map(updateEntity, BoardEntityDto.class);
     }

@@ -60,10 +60,11 @@ public class BoardEntity {
             final String body) {
         this.title = title;
         this.body = body;
-    }
-
-    @PreUpdate
-    public void preUpdate() {
         this.updatedAt = Calendar.getInstance();
     }
+
+//    @PreUpdate
+//    public void preUpdate() {
+//        this.updatedAt = Calendar.getInstance();
+//    }
 }
