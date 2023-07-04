@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -37,7 +38,7 @@ public class BoardApiController {
     @RequestMapping(value = "/board", method = {RequestMethod.PUT})
     public ResponseEntity<BoardEntityDto> insert(
             //
-            BoardEntityDto dto, //
+            @Validated BoardEntityDto dto, //
             HttpServletRequest request, HttpServletResponse response) //
     {
         BoardEntityDto insertedDto = boardService.insert(dto);
@@ -59,7 +60,7 @@ public class BoardApiController {
     @RequestMapping(value = "/board", method = {RequestMethod.POST})
     public ResponseEntity<BoardEntityDto> update(
             //
-            BoardEntityDto dto, //
+            @Validated BoardEntityDto dto, //
             HttpServletRequest request, HttpServletResponse response) //
             throws NoContentException {
 

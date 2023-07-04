@@ -75,6 +75,17 @@
                 </div>
             </div>
 
+            <th:block th:unless="${mode == 'insert'}">
+                <div class="writer-area w3-margin-top">
+                    <label>
+                        수정시간
+                    </label>
+                    <div th:text="${#dates.format(dto?.updatedAt,'yyyy-MM-dd HH:mm:ss')}"
+                         style="display: inline-block;">
+                    </div>
+                </div>
+            </th:block>
+
             <div class="body-area w3-margin-top">
 
                 <textarea

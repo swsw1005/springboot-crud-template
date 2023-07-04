@@ -37,6 +37,11 @@ public class BoardEntity {
     @Temporal(TemporalType.TIMESTAMP)
     private Calendar createdAt = Calendar.getInstance();
 
+    @Column(name = "updated_at", updatable = true)
+    @Builder.Default
+    @Temporal(TemporalType.TIMESTAMP)
+    private Calendar updatedAt = Calendar.getInstance();
+
     @NotNull
     @NotEmpty
     @Column(name = "writer", length = 100, updatable = false, nullable = false)
@@ -55,5 +60,10 @@ public class BoardEntity {
             final String body) {
         this.title = title;
         this.body = body;
+    }
+
+    @PreUpdate
+    public void preUpdate() {
+        this.updatedAt = Calendar.getInstance();
     }
 }

@@ -115,7 +115,8 @@ public class BoardReadOnlyService {
                         predicates.add(builder.like(root.get("body"), "%" + searchKeyword + "%"));
                         break;
                     case writer:
-                        predicates.add(builder.equal(root.get("writer"), searchKeyword));
+//                        predicates.add(builder.equal(root.get("writer"), searchKeyword));
+                        predicates.add(builder.like(root.get("writer"), "%" + searchKeyword + "%"));
                         break;
                 }
             }

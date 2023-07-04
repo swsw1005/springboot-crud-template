@@ -10,6 +10,12 @@ const searchPaging = (_this) => {
 
 const searchList = () => {
 
+    const validateMsg = validate();
+    if (validateMsg.length > 0) {
+        alert(validateMsg + ".");
+        return;
+    }
+
     const formData = new FormData(document.getElementById("boardForm"));
     console.log(document.getElementById("startDate").valueAsDate);
     console.log(document.getElementById("endDate").valueAsDate);
@@ -38,10 +44,38 @@ const searchList = () => {
 }
 
 const submitForm = (pageNum) => {
+
+    const validateMsg = validate();
+    if (validateMsg.length > 0) {
+        alert(validateMsg);
+        return;
+    }
+
     if (pageNum != undefined && pageNum != null) {
         document.getElementById("pageNum").value = pageNum;
     }
     document.getElementById("boardForm").submit();
+}
+
+const validate = () => {
+
+    const searchKeyword = document.getElementById("searchKeyword");
+    const searchType = document.getElementById("searchType");
+
+    if (searchType.value != null && searchType.value.length > 0) {
+        if (searchKeyword.value.length > 1) {
+            //
+        } else {
+            return ("검색어는 2글자 이상 입력해주세요");
+        }
+    } else {
+        if (searchKeyword.value.length > 0) {
+            return "검색 조건을 선택해주세요.";
+        } else {
+            //
+        }
+    }
+    return "";
 }
 
 const gotoRegister = () => {
@@ -88,6 +122,7 @@ function deleteById(_this) {
         .then(function (response) {
             console.log(response);
             alert("게시글 삭제 성공");
+            gotoList();
         })
         .catch(function (error) {
             console.log(error);
@@ -95,7 +130,6 @@ function deleteById(_this) {
         })
         .then(function () {
             console.log("then");
-            gotoList();
         });
 }
 
@@ -104,6 +138,12 @@ function insertBoard(mode) {
     const id = formData.get("id");
 
     if (mode == 'insert') {
+
+        const validateMsg = validateInsert(formData);
+        if (validateMsg.length > 0) {
+            alert(validateMsg + ".");
+            return;
+        }
 
         axios.put('/api/v1/board/', formData)
             .then(function (response) {
@@ -122,6 +162,14 @@ function insertBoard(mode) {
             });
     } else {
 
+        formData.append("writer", "writer");
+
+        const validateMsg = validateInsert(formData);
+        if (validateMsg.length > 0) {
+            alert(validateMsg + ".");
+            return;
+        }
+
         axios.post('/api/v1/board/', formData)
             .then(function (response) {
                 console.log(response);
@@ -136,5 +184,41 @@ function insertBoard(mode) {
                 gotoViewById(id);
             });
     }
+
+}
+
+const validateInsert = (_formData) => {
+
+    const validateRule = {
+        "title": {
+            "length": 2,
+            "msg": "제목을 2글자 이상 입력해주세요."
+        },
+        "body": {
+            "length": 2,
+            "msg": "내용을 2글자 이상 입력해주세요."
+        },
+        "writer": {
+            "length": 2,
+            "msg": "작성자를 2글자 이상 입력해주세요."
+        },
+    }
+
+    for (let keysetElement of Object.keys(validateRule)) {
+
+        var length = validateRule[keysetElement]['length'];
+        var msg = validateRule[keysetElement]['msg'];
+
+        console.log(keysetElement, "___", _formData.get(keysetElement));
+
+        if (_formData.get(keysetElement) != null && _formData.get(keysetElement) != undefined) {
+            console.log(_formData.get(keysetElement).length)
+            if (_formData.get(keysetElement).length >= length) {
+                continue;
+            }
+        }
+        return msg;
+    }
+    return "";
 
 }
